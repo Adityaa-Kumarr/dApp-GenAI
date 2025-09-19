@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - SafeID</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="K2IlH8AAd49HhuSnB4we1";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+</head>
+<body>
+  <div class="login-container">
+    <!-- Left Side (Form) -->
+    <div class="login-form">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i> <span>SafeID Admin Panel</span>
+      </div>
+
+      <h2>Welcome Back</h2>
+      <p>Please enter your login details to proceed.</p>
+
+      <form id="loginForm">
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        
+        <!-- Error Message Placeholder -->
+        <p class="error-message" id="errorMessage"></p>
+        <button type="submit" class="btn">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Right Side (Illustration) -->
+    <div class="login-illustration">
+      <img src="admin.jpg" alt="Secure Administration Illustration">
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

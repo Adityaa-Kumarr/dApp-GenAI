@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeID Dashboard</title>
+  <link rel="icon" type="image/png" href="./assets/images/safeidlogo.png">
+  <script>
+        (function(){
+            if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+                window.chatbase = function() {
+                    if (!window.chatbase.q) { window.chatbase.q = []; }
+                    window.chatbase.q.push(arguments);
+                };
+                window.chatbase = new Proxy(window.chatbase, {
+                    get(target, prop) {
+                        if (prop === "q") { return target.q; }
+                        return function(...args) { return target(prop, ...args); };
+                    }
+                });
+            }
+            const onLoad = function() {
+                const script = document.createElement("script");
+                script.src = "https://www.chatbase.co/embed.min.js";
+                script.id = "K2IlH8AAd49HhuSnB4we1";
+                script.domain = "www.chatbase.co";
+                document.body.appendChild(script);
+            };
+            if (document.readyState === "complete") {
+                onLoad();
+            } else {
+                window.addEventListener("load", onLoad);
+            }
+        })();
+    </script>
+  <style>
+    /* --- Global Styles --- */
+    :root {
+      --primary-color: #1a73e8;
+      --secondary-color: #f4f7fb;
+      --text-dark: #333;
+      --text-light: #fff;
+      --card-bg: #fff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--secondary-color); color: var(--text-dark); line-height: 1.6; }
+
+    /* --- Navbar --- */
+    .navbar { background: var(--primary-color); padding: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .nav-container { max-width: 1100px; margin: auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { color: var(--text-light); font-weight: bold; font-size: 24px; }
+    .nav-links { list-style: none; display: flex; gap: 25px; }
+    .nav-links li a { text-decoration: none; color: var(--text-light); font-weight: 500; transition: 0.3s; }
+    .nav-links li a:hover, .nav-links li a.active { color: #ffdd57; }
+
+    /* --- Hero Section --- */
+    .hero { background: var(--primary-color); color: var(--text-light); text-align: center; padding: 40px 20px; }
+    .hero-content { max-width: 800px; margin: auto; }
+    .user-photo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--text-light); object-fit: cover; margin-bottom: 15px; background: #fff; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+    /* --- Sections & Cards --- */
+    .info-section { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+    .info-section h2 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+    .info-card { background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: var(--shadow); }
+    .info-card p { font-size: 1rem; margin-bottom: 10px; }
+    .info-card p strong { color: #555; }
+    .info-card span { word-break: break-all; }
+
+    /* --- Documents Table --- */
+    .documents-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .documents-table thead { background: #e9ecef; }
+    .documents-table th, .documents-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #dee2e6; }
+    .documents-table th { font-weight: 600; }
+    .status-verified { color: #28a745; font-weight: bold; }
+    .document-link { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+    .document-link:hover { text-decoration: underline; }
+
+    /* --- Flip ID Card Styles --- */
+    .id-card-section {
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .flip-card {
+        background-color: transparent;
+        width: 480px;
+        height: 280px;
+        perspective: 1000px;
+        cursor: pointer;
+    }
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+    .flip-card.is-flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden; /* Safari */
+        backface-visibility: hidden;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        color: white;
+        overflow: hidden;
+    }
+    .flip-card-front {
+        background: linear-gradient(45deg, #1a73e8, #4285f4);
+        display: flex;
+        padding: 25px;
+        gap: 20px;
+    }
+    .card-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        width: 40%;
+    }
+    #cardUserPhoto {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid white;
+        object-fit: cover;
+    }
+    #cardUserName {
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    .card-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 60%;
+        border-left: 1px dashed rgba(255,255,255,0.3);
+        padding-left: 20px;
+    }
+    #cardQrCode {
+        width: 150px;
+        height: 150px;
+        background: white;
+        padding: 8px;
+        border-radius: 8px;
+    }
+    #cardWalletAddress {
+        font-family: 'Courier New', Courier, monospace;
+        background: rgba(0,0,0,0.2);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
+    .flip-card-back {
+        background: linear-gradient(-45deg, #1a73e8, #1c5abc);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+        gap: 20px;
+    }
+    .card-back-logo {
+        font-size: 2rem;
+        font-weight: bold;
+        opacity: 0.8;
+    }
+    .card-back-info p {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+     .card-back-info p strong {
+        display: block;
+        font-weight: 300;
+        font-size: 0.9rem;
+        opacity: 0.8;
+     }
+
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">SafeID</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="upload.html">Upload</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <img src="https://via.placeholder.com/100" alt="User Photo" class="user-photo" id="userPhoto">
+      <h1>Welcome, <span id="userName">[Refugee Name]</span> 🙏</h1>
+      <p>Your decentralized identity dashboard</p>
+    </div>
+  </header>
+
+  <section class="info-section">
+    <h2>Profile Information</h2>
+    <div class="info-card">
+      <p><strong>Name:</strong> <span id="profileName"></span></p>
+      <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+      <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+      <p><strong>Nationality:</strong> <span id="profileNationality"></span></p>
+      <p><strong>Wallet Address:</strong> <span id="profileWallet"></span></p>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2>Uploaded Documents</h2>
+    <div class="info-card">
+      <table class="documents-table" id="docsTable">
+        <thead>
+          <tr>
+            <th>Document Type</th>
+            <th>File on IPFS</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          </tbody>
+      </table>
+    </div>
+  </section>
+  
+  <section class="info-section id-card-section">
+    <div>
+        <h2 style="text-align: center;">Your Digital ID Card</h2>
+        <p style="text-align: center; margin-bottom: 20px;">Click the card to flip it over.</p>
+        <div class="flip-card" id="flipCard">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-left">
+                        <img src="https://via.placeholder.com/100" alt="User Photo" id="cardUserPhoto">
+                        <h3 id="cardUserName">[Name]</h3>
+                    </div>
+                    <div class="card-right">
+                        <img src="https://via.placeholder.com/150" alt="QR Code" id="cardQrCode">
+                        <p id="cardWalletAddress">[Wallet]</p>
+                    </div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-back-logo">SafeID</div>
+                    <div class="card-back-info">
+                        <p><strong>Nationality</strong> <span id="cardNationality"></span></p>
+                        <p><strong>Email</strong> <span id="cardEmail"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="downloadPdfBtn" style="display: block; margin: 30px auto 0; padding: 12px 25px; font-size: 1rem; font-weight: 500; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: background-color 0.3s;">Download ID Card (PDF)</button>
+    </div>
+  </section>
+
+
+  <script>
+  // --- IPFS Gateway ---
+  const IPFS_GATEWAY = "https://gateway.pinata.cloud/ipfs/";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Extract query params
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get("name") || "User";
+    const email = urlParams.get("email") || "N/A";
+    const phone = urlParams.get("phno") || "N/A";
+    const nationality = urlParams.get("nationality") || "N/A";
+    const wallet = urlParams.get("wallet") || "[Not Provided]";
+    const initialCid = urlParams.get("cid");
+    const newDocCid = urlParams.get("newDocCid");
+    const newDocType = urlParams.get("docType");
+    const foldername = urlParams.get("foldername")
+      ? `/${urlParams.get("foldername")}`
+      : "";
+
+    // Photo from IPFS if available
+    const photoUrl = initialCid
+      ? `${IPFS_GATEWAY}${initialCid}${foldername}/photo.jpeg`
+      : "https://via.placeholder.com/100";
+
+    // Populate UI
+    populateProfile(name, email, phone, nationality, wallet);
+    fetchAndDisplayPhoto(photoUrl);
+    populateDocumentsTable(initialCid, newDocCid, newDocType);
+    populateIdCard(name, email, nationality, wallet, photoUrl);
+
+    // Flip card event
+    const card = document.getElementById("flipCard");
+    card.addEventListener("click", () => {
+      card.classList.toggle("is-flipped");
+    });
+
+    // PDF download
+    // PDF download
+    const downloadBtn = document.getElementById("downloadPdfBtn");
+    downloadBtn.addEventListener("click", () => {
+      // --- THIS IS THE FIX ---
+      // Target the static front of the card, not the animated container.
+      const element = document.querySelector(".flip-card-front"); 
+      
+      const userNameForFile = document
+        .getElementById("userName")
+        .textContent.trim()
+        .replace(/\s+/g, "_");
+
+      const options = {
+        margin: [0, 0, 0, 0], // Set margin to 0 for a tighter fit
+        filename: `${userNameForFile}_SafeID_Card.pdf`,
+        image: { type: "jpeg", quality: 1.0 }, // Use higher quality
+        html2canvas: { scale: 3, useCORS: true }, // Increase scale for better resolution
+        jsPDF: { unit: "in", format: [5, 3], orientation: "landscape" }, // Custom format to match card aspect ratio
+      };
+
+      // Ensure all images are loaded before generating PDF
+      const imgs = element.getElementsByTagName("img");
+      const promises = Array.from(imgs).map(
+        (img) =>
+          new Promise((resolve, reject) => {
+            // This setup helps with images from other domains (like the QR code)
+            img.crossOrigin = "anonymous"; 
+            if (img.complete) {
+              resolve();
+            } else {
+              img.onload = resolve;
+              img.onerror = (err) => {
+                console.error("Image failed to load:", img.src, err);
+                // We resolve anyway so the PDF can still be created, 
+                // though the image might be missing.
+                resolve(); 
+              };
+            }
+          })
+      );
+
+      Promise.all(promises)
+        .then(() => {
+          html2pdf().set(options).from(element).save();
+        })
+        .catch((err) => {
+          console.error("PDF generation failed:", err);
+          alert("Could not generate the PDF. Please check the console for errors.");
+        });
+    });
+  });
+  // ---- Helpers ----
+  function populateProfile(name, email, phone, nationality, wallet) {
+    document.getElementById("userName").textContent = name;
+    document.getElementById("profileName").textContent = name;
+    document.getElementById("profileEmail").textContent = email;
+    document.getElementById("profilePhone").textContent = phone;
+    document.getElementById("profileNationality").textContent = nationality;
+    document.getElementById("profileWallet").textContent = wallet;
+  }
+
+  function fetchAndDisplayPhoto(photoUrl) {
+    const userPhoto = document.getElementById("userPhoto");
+    userPhoto.src = photoUrl;
+  }
+
+  function populateDocumentsTable(initialCid, newDocCid, newDocType) {
+    const tableBody = document.querySelector("#docsTable tbody");
+    tableBody.innerHTML = "";
+
+    if (initialCid) {
+      const row = tableBody.insertRow();
+      row.innerHTML = `
+        <td>Initial Identity Record</td>
+        <td><a href="${IPFS_GATEWAY}${initialCid}" target="_blank" class="document-link">View Files</a></td>
+        <td class="status-verified">Verified on IPFS</td>
+      `;
+    }
+
+    if (newDocCid) {
+      const row = tableBody.insertRow();
+      row.innerHTML = `
+        <td>${formatDocType(newDocType)}</td>
+        <td><a href="${IPFS_GATEWAY}${newDocCid}" target="_blank" class="document-link">View File</a></td>
+        <td class="status-verified">Verified on IPFS</td>
+      `;
+    }
+  }
+
+  function populateIdCard(name, email, nationality, wallet, photoUrl) {
+    document.getElementById("cardUserPhoto").src = photoUrl;
+    document.getElementById("cardUserName").textContent = name;
+    document.getElementById("cardWalletAddress").textContent =
+      wallet.length > 10 ? wallet.substring(0, 6) + "..." : wallet;
+    document.getElementById("cardNationality").textContent = nationality;
+    document.getElementById("cardEmail").textContent = email;
+
+    // QR code
+    const details = { name, email, nationality, walletAddress: wallet };
+    const qrData = encodeURIComponent(JSON.stringify(details));
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+    document.getElementById("cardQrCode").src = qrUrl;
+  }
+
+  function formatDocType(docType) {
+    if (!docType) return "Document";
+    return docType.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  }
+</script>
+
+</body>
+</html>

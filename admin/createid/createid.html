@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New ID - Data Collection</title>
+    <link rel="icon" type="image/png" href="../../assets/images/safeidlogo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        (function(){
+            if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+                window.chatbase = function() {
+                    if (!window.chatbase.q) { window.chatbase.q = []; }
+                    window.chatbase.q.push(arguments);
+                };
+                window.chatbase = new Proxy(window.chatbase, {
+                    get(target, prop) {
+                        if (prop === "q") { return target.q; }
+                        return function(...args) { return target(prop, ...args); };
+                    }
+                });
+            }
+            const onLoad = function() {
+                const script = document.createElement("script");
+                script.src = "https://www.chatbase.co/embed.min.js";
+                script.id = "K2IlH8AAd49HhuSnB4we1";
+                script.domain = "www.chatbase.co";
+                document.body.appendChild(script);
+            };
+            if (document.readyState === "complete") {
+                onLoad();
+            } else {
+                window.addEventListener("load", onLoad);
+            }
+        })();
+    </script>
+    
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --dark-bg: #384959;
+            --card-bg: #4a5e70;
+            --primary-color: #88BDF2;
+            --secondary-color: #6A89A7;
+            --light-accent: #BDDDFC;
+            --text-light: #f0f8ff;
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- Layout & Form Styles --- */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 6px;
+            border: 1px solid var(--secondary-color);
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        
+        /* --- Camera & Fingerprint Sections --- */
+        .camera-section, .fingerprint-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #camera-stream, #photo-preview {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 6px;
+            background-color: #2c3a47;
+            border: 1px solid var(--secondary-color);
+        }
+
+        #photo-preview {
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .button-group button {
+            width: auto;
+            padding: 0.8rem 1.5rem;
+        }
+
+        .scanner-area {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 1rem auto;
+            border-radius: 50%;
+            background-color: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .scanner-area i {
+            font-size: 50px;
+            color: var(--light-accent);
+            transition: color 0.3s ease;
+        }
+
+        .scanner-area:hover {
+            border-color: var(--primary-color);
+        }
+
+        .scanner-area.scanning .scan-line {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+            animation: scan 2s linear infinite;
+        }
+
+        .scan-line {
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100px); }
+        }
+
+        .scanner-area.scanned i {
+            color: var(--success-color);
+        }
+
+        #fingerprint-status {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-content i {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .modal-content .cid-info {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem auto;
+            display: none; /* Initially hidden */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal-content button {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+            <h1>CREATE REFUGEE ID</h1>
+        </div>
+    </nav>
+
+    <main>
+        <div class="form-container">
+            <form id="create-id-form">
+                <h2>Enter Refugee's Details</h2>
+
+                <!-- Camera Section -->
+                <div class="camera-section">
+                    <video id="camera-stream" autoplay playsinline></video>
+                    <canvas id="photo-canvas" style="display:none;"></canvas>
+                    <img id="photo-preview" src="#" alt="Captured photo preview">
+                    <div class="button-group">
+                        <button type="button" id="capture-btn"><i class="fas fa-camera"></i> Capture Photo</button>
+                        <button type="button" id="recapture-btn" style="display: none;"><i class="fas fa-redo"></i> Recapture</button>
+                    </div>
+                </div>
+                
+                <!-- Input Fields -->
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter full name" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone">Phone No</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                </div>
+                <div class="input-group">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality" placeholder="Enter nationality" required>
+                </div>
+
+                <!-- Fingerprint Section -->
+                <div class="fingerprint-section">
+                    <label>Fingerprint Scan</label>
+                    <div id="fingerprint-scanner" class="scanner-area">
+                        <i class="fas fa-fingerprint"></i>
+                        <div class="scan-line"></div>
+                    </div>
+                    <p id="fingerprint-status">Pending...</p>
+                </div>
+                
+                <button type="submit" id="submit-btn" disabled>Save Identity to IPFS</button>
+            </form>
+        </div>
+    </main>
+    
+    <!-- Success/Processing Modal -->
+    <div id="success-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div id="modal-spinner" class="spinner"></div>
+            <i id="modal-icon" class="fas fa-check-circle"></i>
+            <h2 id="modal-title">Success!</h2>
+            <p id="modal-text">The refugee's identity has been securely saved.</p>
+            <div id="cid-display" class="cid-info" style="display: none;">
+                <strong>IPFS CID:</strong> <span id="ipfs-cid"></span>
+            </div>
+            <button id="close-modal-btn">View Identity</button>
+        </div>
+        
+    </div>
+    
+    <script type="module">
+    import axios from "https://cdn.jsdelivr.net/npm/axios@1.7.2/+esm";
+
+    // --- CONFIGURATION ---
+    const PINATA_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI5ZjM4OTc3OS0yMWIzLTRkYWItYWNhZC0yOTRhMGY0Zjc0YzAiLCJlbWFpbCI6ImhhY2toYWNrYXRob242N0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODIzODI4YmRhNDU3MDJmN2JkMjkiLCJzY29wZWRLZXlTZWNyZXQiOiJkMDA4ZjBjOTU2MDg5NGQwZDk1YzQ5NTlhMjQ1NTU2MjZmZjMwNTFmNjRkNjlkMTY5ZjFiYjc2ZDdmNGNhYWQ1IiwiZXhwIjoxNzg4MDkwNzAwfQ.2YWP1rBgKeqWbYuJroeGxaAzNZ98kJRuSvpyZm9F5no';
+
+    // --- STATE MANAGEMENT ---
+    let capturedImageBlob = null;
+    let fingerprintScanned = false;
+    let fingerprintCredential = null;
+
+    // --- DOM ELEMENT REFERENCES ---
+    const form = document.getElementById('create-id-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const video = document.getElementById('camera-stream');
+    const canvas = document.getElementById('photo-canvas');
+    const captureBtn = document.getElementById('capture-btn');
+    const photoPreview = document.getElementById('photo-preview');
+    const recaptureBtn = document.getElementById('recapture-btn');
+    const fingerprintScanner = document.getElementById('fingerprint-scanner');
+    const fingerprintStatus = document.getElementById('fingerprint-status');
+    const successModal = document.getElementById('success-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalSpinner = document.getElementById('modal-spinner');
+    const modalIcon = document.getElementById('modal-icon');
+    const modalTitle = document.getElementById('modal-title');
+    const modalText = document.getElementById('modal-text');
+    const cidDisplay = document.getElementById('cid-display');
+    const ipfsCidSpan = document.getElementById('ipfs-cid');
+    const name = document.getElementById('name');
+
+    // --- FUNCTIONS ---
+
+    async function simulateFingerprintScan() {
+        try {
+            fingerprintStatus.textContent = "Waiting for fingerprint...";
+
+            const challenge = new Uint8Array(32);
+            window.crypto.getRandomValues(challenge);
+
+            const userId = new Uint8Array(16);
+            window.crypto.getRandomValues(userId);
+
+            const credential = await navigator.credentials.create({
+                publicKey: {
+                    challenge,
+                    rp: { name: "SafeID Refugee System" },
+                    user: {
+                        id: userId,
+                        name: `${name.value}@safeid`,
+                        displayName: `${name.value}`
+                    },
+                    pubKeyCredParams: [
+                        { type: "public-key", alg: -7 },
+                        { type: "public-key", alg: -257 }
+                    ],
+                    authenticatorSelection: {
+                        authenticatorAttachment: "platform",
+                        userVerification: "required"
+                    },
+                    timeout: 60000,
+                    attestation: "none"
+                }
+            });
+
+
+            console.log("✅ Biometric credential created:", credential);
+
+            fingerprintScanner.classList.add('scanned');
+            fingerprintStatus.textContent = "Fingerprint verified!";
+            fingerprintScanned = true;
+            fingerprintCredential = {
+                id: credential.id,
+                type: credential.type,
+                rawId: btoa(String.fromCharCode(...new Uint8Array(credential.rawId))),
+                response: {
+                    clientDataJSON: btoa(String.fromCharCode(...new Uint8Array(credential.response.clientDataJSON))),
+                    attestationObject: credential.response.attestationObject
+                        ? btoa(String.fromCharCode(...new Uint8Array(credential.response.attestationObject)))
+                        : null
+                }
+            };
+
+            checkFormReadiness();
+        } catch (err) {
+            console.error("Fingerprint scan failed:", err);
+            fingerprintStatus.textContent = "Scan failed or cancelled.";
+        }
+    }
+
+    function checkFormReadiness() {
+        if (capturedImageBlob && fingerprintScanned && form.checkValidity()) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
+    }
+
+    let folderNm;
+    async function storeOnPinata(identityData, imageBlob) {
+        if (!imageBlob) throw new Error("No image captured to upload.");
+
+        const data = new FormData();
+        const timestamp = Date.now();
+        const folderName = `SafeID-Refugee-${name.value}-${timestamp}`;
+        folderNm = folderName;
+
+        data.append('file', imageBlob, `${folderName}/photo.jpeg`);
+
+        const jsonBlob = new Blob([JSON.stringify(identityData)], { type: 'application/json' });
+        data.append('file', jsonBlob, `${folderName}/identity.json`);
+
+        data.append('pinataMetadata', JSON.stringify({ name: folderName }));
+        data.append('pinataOptions', JSON.stringify({ wrapWithDirectory: true }));
+
+        const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", data, {
+            headers: { 'Authorization': `Bearer ${PINATA_JWT}` }
+        });
+
+        return res.data.IpfsHash;
+    }
+
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+        if (!form.checkValidity() || !capturedImageBlob || !fingerprintScanned) {
+            alert("Please fill all fields, capture a photo, and scan a fingerprint.");
+            return;
+        }
+
+        modalIcon.style.display = 'none';
+        modalSpinner.style.display = 'block';
+        modalTitle.textContent = 'Processing...';
+        modalText.textContent = 'Uploading data securely to IPFS. Please wait.';
+        cidDisplay.style.display = 'none';
+        successModal.style.display = 'flex';
+
+        try {
+            const formData = new FormData(form);
+
+            const refugeeData = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                nationality: formData.get('nationality'),
+                fingerprint: fingerprintCredential || "verification_failed"
+            };
+
+            const cid = await storeOnPinata(refugeeData, capturedImageBlob);
+
+            modalSpinner.style.display = 'none';
+            modalIcon.style.display = 'block';
+            modalTitle.textContent = 'Success!';
+            modalText.textContent = 'The refugee\'s identity has been securely saved to IPFS.';
+            ipfsCidSpan.textContent = cid;
+            cidDisplay.style.display = 'block';
+
+        } catch (error) {
+            console.error("Failed to process data:", error);
+            alert(`An error occurred: ${error.message}`);
+            successModal.style.display = 'none';
+        }
+    }
+
+    function resetForm() {
+    // Save values BEFORE reset clears them
+    const userName = form.querySelector('#name').value;
+    const userEmail = form.querySelector('#email').value;
+    const userPhone = form.querySelector('#phone').value;
+    const userNationality = form.querySelector('#nationality').value;
+    const cid = ipfsCidSpan.textContent;
+
+    // Now reset form + UI
+    form.reset();
+    recapturePhoto();
+    fingerprintScanner.classList.remove('scanned');
+    fingerprintStatus.textContent = 'Pending...';
+    fingerprintScanned = false;
+    fingerprintCredential = null;
+    checkFormReadiness();
+    successModal.style.display = 'none';
+
+    // Redirect with saved values
+    if (cid && userName) {
+        location.href = `upload/upload.html?name=${encodeURIComponent(userName)}&cid=${encodeURIComponent(cid)}&email=${encodeURIComponent(userEmail)}&phone=${encodeURIComponent(userPhone)}&nationality=${encodeURIComponent(userNationality)}&foldername=${encodeURIComponent(folderNm)}`;
+    } else {
+        alert("Identity data not ready yet.");
+    }
+}
+
+
+
+    // --- Camera Logic ---
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            video.srcObject = stream;
+        } catch (error) {
+            console.error("Error accessing camera:", error);
+            alert("Could not access camera. Please grant permission.");
+        }
+    }
+
+    function takePicture() {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        photoPreview.src = canvas.toDataURL('image/jpeg');
+        photoPreview.style.display = 'block';
+        video.style.display = 'none';
+        captureBtn.style.display = 'none';
+        recaptureBtn.style.display = 'inline-block';
+        canvas.toBlob(blob => {
+            capturedImageBlob = blob;
+            checkFormReadiness();
+        }, 'image/jpeg');
+    }
+
+    function recapturePhoto() {
+        video.style.display = 'block';
+        photoPreview.style.display = 'none';
+        captureBtn.style.display = 'inline-block';
+        recaptureBtn.style.display = 'none';
+        capturedImageBlob = null;
+        checkFormReadiness();
+    }
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        startCamera();
+        captureBtn.addEventListener('click', takePicture);
+        recaptureBtn.addEventListener('click', recapturePhoto);
+        fingerprintScanner.addEventListener('click', simulateFingerprintScan);
+        form.addEventListener('submit', handleFormSubmit);
+        closeModalBtn.addEventListener('click', resetForm);
+        form.addEventListener('input', checkFormReadiness);
+    });
+</script>
+
+</body>
+</html>
