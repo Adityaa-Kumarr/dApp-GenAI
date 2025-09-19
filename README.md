@@ -4,7 +4,6 @@
 
 **Team Members:**
 - **Aditya Kumar** (Team Leader)
-- **Zeba Praween** (Team Member)
 - **Samiksha Raj** (Team Member)
 
 ---
@@ -101,7 +100,7 @@ This project utilizes a modern, lightweight tech stack designed for rapid develo
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/Adityaa-Kumarr/dApp.git
+   git clone https://github.com/Adityaa-Kumarr/dApp-GenAI.git
    cd dApp
    ```
 
@@ -167,7 +166,7 @@ dApp/
 
 ---
 
-## 5️⃣ Embedded AI Chatbot 🤖
+## 5️⃣ Embedded GOOGLE AI Chatbot 🤖
 
 SafeID includes an AI-powered chatbot that provides:
 
