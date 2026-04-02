@@ -1,10 +1,11 @@
 # 🔐SafeID: Decentralized Identity for Displaced Civilians 🌍
 
-**Team Nexaid** - *Innovate-A-Thon 3.0*
+**Team GeoTrix**
 
 **Team Members:**
 - **Aditya Kumar** (Team Leader)
 - **Samiksha Raj** (Team Member)
+- **Zeba Praween** (Team Member)
 
 ---
 
